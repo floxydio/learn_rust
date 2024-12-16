@@ -4,48 +4,48 @@ use sqlx::FromRow;
 
 #[derive(Serialize)]
 pub struct ResponseWhenSuccess {
-    pub(crate) status: i32,
-    pub(crate) error: bool,
-    pub(crate)data: Vec<StoreModel>,
-    pub(crate) message: String,
+    pub status: i32,
+    pub error: bool,
+    pub data: Vec<StoreModel>,
+    pub message: String,
 }
 
 #[derive(Serialize)]
 pub struct ResponseWhenSuccessDetail {
-    pub(crate) status: i32,
-    pub(crate) error: bool,
-    pub(crate)data: StoreModel,
-    pub(crate) message: String,
+    pub status: i32,
+    pub error: bool,
+    pub data: StoreModel,
+    pub message: String,
 }
 
 #[derive(Serialize)]
 pub struct ResponseWhenError {
-    pub(crate) status: i32,
-    pub(crate) error: bool,
-    pub(crate) message: String,
+    pub status: i32,
+    pub error: bool,
+    pub message: String,
 }
 
 
 #[derive(Serialize)]
 pub struct ResponseWhenBlob {
-    pub(crate) status: i32,
-    pub(crate) error: bool,
-    pub(crate) message: String
+    pub status: i32,
+    pub error: bool,
+    pub message: String
 }
 
 #[derive(Serialize, FromRow)]
 pub struct StoreModel {
-    pub(crate) store_id: i32,
-    pub(crate) name: String,
-    pub(crate) location: String,
-    pub(crate) status: i32,
-    pub(crate) store_founder_id: Option<i32>,
-    pub(crate) created_at:Option<NaiveDateTime>
+    pub store_id: i32,
+    pub name: String,
+    pub location: String,
+    pub status: i32,
+    pub store_founder_id: Option<i32>,
+    pub created_at:Option<NaiveDateTime>
 }
 
 #[derive(Deserialize)]
 pub struct StorePost {
-    pub(crate) name: String,
-    pub(crate) location: String,
-    pub(crate) status: i32,
+    pub name: String,
+    pub location: String,
+    pub status: i32,
 }

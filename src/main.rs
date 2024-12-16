@@ -168,9 +168,6 @@ async fn sign_in_user(body: web::Json<AuthSignIn>,db_pool: web::Data<MySqlPool> 
             status: 404
         })
     }
-
-
-
 }
 
 #[actix_web::main]
