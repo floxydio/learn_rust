@@ -16,4 +16,5 @@ serde = { version = "1.0", features = ["derive"] }
 sqlx = { version = "0.8", features = [ "mysql","runtime-tokio", "tls-native-tls","chrono" ] }
 dotenvy = "0.15.7"
 chrono = {version = "0.4.39", features = ["serde"]}
+bcrypt = "0.16.0"
 ```
