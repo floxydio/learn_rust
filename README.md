@@ -1,7 +1,7 @@
 # Challenge Rust Dio 2024
 
 - CRUD [Done]
-- Add Users + Bcrypt [Not Done]
+- Add Users + Bcrypt [Done]
 - Validator [Not Done]
 - Add JWT Token [Manual - Not Done]
 - Add Profile Picture using Image [Not Done]
