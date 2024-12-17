@@ -7,7 +7,7 @@
 - Add Profile Picture using Image [Not Done]
 - Add JWT Token to Redis [Not Done]
 - Implement Swagger [Not Done]
-- Refactor Code [Not Done]
+- Refactor Code [Done]
 
 Package used
 ```toml
