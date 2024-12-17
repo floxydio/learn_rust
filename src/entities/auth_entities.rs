@@ -1,13 +1,16 @@
-use chrono::NaiveDateTime;
 use serde::{Deserialize, Serialize};
 use sqlx::FromRow;
+use validator::{Validate};
 
-#[derive(Deserialize)]
+#[derive(Deserialize,Debug,Validate)]
 pub struct AuthPost {
    pub name: String,
+    #[validate(email(message = "email must be a valid email"))]
    pub email: String,
+    #[validate(length(min = 8, max = 64, message ="Min 8 Character"))]
    pub password: String,
 }
+
 
 #[derive(Serialize)]
 pub struct AuthTokenSignIn {

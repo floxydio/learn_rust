@@ -5,9 +5,9 @@ use actix_web::{get, HttpResponse, Responder, HttpServer, App, web, post, put};
 use std::io;
 use sqlx::{query, query_as, Error, FromRow, MySqlPool};
 use crate::database::connect_db;
-use crate::entities::{ResponseWhenBlob, ResponseWhenError, ResponseWhenSuccess, ResponseWhenSuccessDetail, StoreModel, StorePost, AuthPost, AuthFindByProfile, ResponseErrorAuth, ResponseSignUp, AuthSignIn, AuthTokenSignIn};
+use crate::entities::{ResponseWhenBlob, ResponseWhenError, ResponseWhenSuccess, ResponseWhenSuccessDetail, StoreModel, StorePost, AuthPost, AuthFindByProfile, ResponseErrorAuth, ResponseSignUp, AuthSignIn, AuthTokenSignIn, ErrorValidation, FieldError};
 use bcrypt::{DEFAULT_COST, hash, verify};
-
+use validator::{Validate, ValidationErrors};
 
 #[get("/store")]
 async fn get_store(db_pool: web::Data<MySqlPool>) -> impl Responder {
@@ -108,6 +108,17 @@ async fn get_store_detail(path: web::Path<u32>,db_pool: web::Data<MySqlPool>) ->
 
 #[post("/sign-up")]
 async fn sign_up_user(body: web::Json<AuthPost>,db_pool: web::Data<MySqlPool>) -> impl Responder {
+    if let Err(errors) = body.validate() {
+        let structured_errors = format_validation_errors(errors);
+
+        let error_json: ErrorValidation = ErrorValidation {
+            status: 400,
+            error: true,
+            validate: structured_errors,
+            message: "Missing Validation".to_string()
+        };
+        return HttpResponse::BadRequest().json(error_json);
+    }
     let hashed = hash(&body.password, DEFAULT_COST);
     let query_insert = query("INSERT INTO users(name,password,email) VALUES (?,?,?)").bind(&body.name).bind(hashed.unwrap()).bind(&body.email).execute(db_pool.get_ref()).await;
 
@@ -129,7 +140,20 @@ async fn sign_up_user(body: web::Json<AuthPost>,db_pool: web::Data<MySqlPool>) -
         }
     }
 }
+fn format_validation_errors(errors: ValidationErrors) -> Vec<FieldError> {
+    let mut field_errors = Vec::new();
 
+    for (field, errors) in errors.field_errors() {
+        for error in errors {
+            field_errors.push(FieldError {
+                field: field.to_string(),
+                message: error.message.clone().unwrap_or_default().to_string(),
+            });
+        }
+    }
+
+    field_errors
+}
 #[post("/sign-in")]
 async fn sign_in_user(body: web::Json<AuthSignIn>,db_pool: web::Data<MySqlPool> ) -> impl Responder {
     println!("{}", body.email);

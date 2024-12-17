@@ -2,7 +2,7 @@
 
 - CRUD [Done]
 - Add Users + Bcrypt [Done]
-- Validator [Not Done]
+- Validator [Done]
 - Add JWT Token [Manual - Not Done]
 - Add Profile Picture using Image [Not Done]
 - Add JWT Token to Redis [Not Done]
@@ -17,4 +17,5 @@ sqlx = { version = "0.8", features = [ "mysql","runtime-tokio", "tls-native-tls"
 dotenvy = "0.15.7"
 chrono = {version = "0.4.39", features = ["serde"]}
 bcrypt = "0.16.0"
+validator = { version = "0.19", features = ["derive"] }
 ```
